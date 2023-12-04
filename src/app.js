@@ -8,4 +8,8 @@ app.get("/", (req, res) => {
   res.send({ message: "Nodejs Server!" });
 });
 
+// router
+const routerV1 = require("./routes/router");
+app.use("/api/v1", routerV1);
+
 module.exports = app;
