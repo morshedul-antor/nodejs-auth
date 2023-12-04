@@ -8,8 +8,10 @@ const getUserByEmail = async (email) => {
   return await User.findOne({ email });
 };
 
-const getAllUsers = async () => {
-  return await User.find();
+const getAllUsers = async (skip, limit) => {
+  const dataAll = await User.find();
+  const data = await User.find({}, { __v: 0 }).skip(skip).limit(limit);
+  return [{ result: dataAll.length }, data];
 };
 
 module.exports = {

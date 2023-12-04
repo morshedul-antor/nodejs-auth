@@ -6,8 +6,8 @@ const createUser = async (data) => {
   return await newUser.save();
 };
 
-const getAllUsers = async () => {
-  return await userRepo.getAllUsers();
+const getAllUsers = async (skip, limit) => {
+  return await userRepo.getAllUsers(skip, limit);
 };
 
 module.exports = {

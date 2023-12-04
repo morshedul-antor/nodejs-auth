@@ -15,7 +15,10 @@ router.post("/signup", async (req, res) => {
 
 router.get("/all", async (req, res) => {
   try {
-    const newUsers = await userService.getAllUsers();
+    const skip = parseInt(req.query.skip) || 0;
+    const limit = parseInt(req.query.limit) || 10;
+
+    const newUsers = await userService.getAllUsers(skip, limit);
     res.json(newUsers);
   } catch (err) {
     res.status(500).json({ error: err.message });
