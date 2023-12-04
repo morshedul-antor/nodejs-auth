@@ -5,7 +5,7 @@ app.use(express.json());
 
 // root api
 app.get("/", (req, res) => {
-  res.send({ message: "Nodejs Server!" });
+  res.send({ message: "Nodejs Authentication!" });
 });
 
 // router
