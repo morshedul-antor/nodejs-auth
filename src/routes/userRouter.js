@@ -1,4 +1,3 @@
-// src/routes/userRoutes.js
 const express = require("express");
 const router = express.Router();
 
@@ -16,17 +15,14 @@ router.post("/", async (req, res) => {
 
 router.get("/", async (req, res) => {
   try {
-    const skip = parseInt(req.query.skip) || 0;
-    const limit = parseInt(req.query.limit) || 10;
-
-    const data = await userService.getAllUsers(skip, limit);
+    const data = await userService.get();
     res.json(data);
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
 });
 
-router.get("/:id", verifyToken, async (req, res) => {
+router.get("/:id", async (req, res) => {
   try {
     const data = await userService.getUserById(req.params.id);
     res.json(data);

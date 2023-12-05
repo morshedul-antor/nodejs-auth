@@ -1,29 +1,14 @@
 const User = require("../models/userModel");
+const BaseRepo = require("./baseRepo");
 
-const getUserByPhone = async (phone) => {
-  return await User.findOne({ phone });
-};
+class UserRepo extends BaseRepo {
+  constructor(model) {
+    super(model);
+  }
 
-const getUserByEmail = async (email) => {
-  return await User.findOne({ email });
-};
+  async getUserById(id) {
+    return await this.model.findById(id, { __v: 0, password: 0 });
+  }
+}
 
-const getAllUsers = async (skip, limit) => {
-  const dataAll = await User.find();
-  const data = await User.find({}, { __v: 0, password: 0 })
-    .skip(skip)
-    .limit(limit);
-
-  return [{ result: dataAll.length }, data];
-};
-
-const getUserById = async (id) => {
-  return await User.findById(id, { __v: 0, password: 0 });
-};
-
-module.exports = {
-  getUserByPhone,
-  getUserByEmail,
-  getAllUsers,
-  getUserById,
-};
+module.exports = new UserRepo(User);
