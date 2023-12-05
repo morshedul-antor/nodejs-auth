@@ -39,7 +39,7 @@ const getUserById = async (id) => {
 
 module.exports = {
   createUser,
+  login,
   getAllUsers,
   getUserById,
-  login,
 };
