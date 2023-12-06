@@ -22,9 +22,21 @@ router.get("/", async (req, res) => {
   }
 });
 
+router.get("/all", async (req, res) => {
+  const skip = parseInt(req.query.skip) || 0;
+  const limit = parseInt(req.query.limit) || 10;
+
+  try {
+    const data = await userService.getWithPaganation(skip, limit);
+    res.json(data);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
 router.get("/:id", async (req, res) => {
   try {
-    const data = await userService.getUserById(req.params.id);
+    const data = await userService.getById(req.params.id);
     res.json(data);
   } catch (err) {
     res.status(500).json({ error: err.message });
