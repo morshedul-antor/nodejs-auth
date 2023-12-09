@@ -6,8 +6,26 @@ class UserRepo extends BaseRepo {
     super(model);
   }
 
-  async getUserById(id) {
-    return await this.model.findById(id, { __v: 0, password: 0 });
+  // search
+  async getUserByPhone(phone) {
+    return await this.model.findOne({ phone });
+  }
+
+  async getUserByEmail(email) {
+    return await User.findOne({ email });
+  }
+
+  async getUserByIdentifier(identifier) {
+    const userByPhone = await this.getUserByPhone(identifier);
+    const userByEmail = await this.getUserByEmail(identifier);
+
+    if (userByPhone) {
+      return userByPhone;
+    } else if (userByEmail) {
+      return userByEmail;
+    } else {
+      return null;
+    }
   }
 }
 
