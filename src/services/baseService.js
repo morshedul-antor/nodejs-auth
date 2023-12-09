@@ -36,8 +36,8 @@ class BaseService extends BaseRepo {
     return data;
   }
 
-  async updateById(id) {
-    const data = await super.updateById(id);
+  async updateById(id, dataUpdate) {
+    const data = await super.updateById(id, dataUpdate);
     return data;
   }
 
