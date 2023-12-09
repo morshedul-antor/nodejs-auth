@@ -1,8 +1,8 @@
 const express = require("express");
 const router = express.Router();
 
-const isAuth = require("../middlewares/isAuth");
 const userService = require("../services/userService");
+const isAuth = require("../middlewares/isAuth");
 
 router.post("/", async (req, res) => {
   try {
