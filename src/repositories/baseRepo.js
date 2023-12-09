@@ -4,7 +4,8 @@ class BaseRepo {
   }
 
   async create(dataIn) {
-    return await this.model.insertOne(dataIn);
+    const data = new this.model(dataIn);
+    return await data.save();
   }
 
   async get() {
