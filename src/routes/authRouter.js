@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 
 const userService = require("../services/userService");
-const verifyToken = require("../middlewares/verifyToken");
+const isAuth = require("../middlewares/isAuth");
 
 router.post("/login", async (req, res) => {
   try {
@@ -13,7 +13,7 @@ router.post("/login", async (req, res) => {
   }
 });
 
-router.get("/auth", verifyToken, async (req, res) => {
+router.get("/auth", isAuth, async (req, res) => {
   try {
     const data = await userService.getUserById(req.id);
     res.json(data);

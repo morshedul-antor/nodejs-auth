@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 
-const verifyToken = require("../middlewares/verifyToken");
+const isAuth = require("../middlewares/isAuth");
 const userService = require("../services/userService");
 
 router.post("/", async (req, res) => {
@@ -37,6 +37,24 @@ router.get("/all", async (req, res) => {
 router.get("/:id", async (req, res) => {
   try {
     const data = await userService.getById(req.params.id);
+    res.json(data);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+router.patch("/:id", isAuth, async (req, res) => {
+  try {
+    const data = await userService.updateById(req.params.id, req.body);
+    res.json(data);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+router.delete("/:id", isAuth, async (req, res) => {
+  try {
+    const data = await userService.deleteById(req.params.id);
     res.json(data);
   } catch (err) {
     res.status(500).json({ error: err.message });
