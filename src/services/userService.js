@@ -1,13 +1,13 @@
 const BaseService = require("./baseService");
-const UserRepo = require("../repositories/userRepo");
+const userRepo = require("../repositories/userRepo");
 
 class UserService extends BaseService {
   constructor() {
-    super(UserRepo.model);
+    super(userRepo.model);
   }
 
   async getUserById(id) {
-    return await UserRepo.getUserById(id);
+    return await userRepo.getUserById(id);
   }
 }
 
