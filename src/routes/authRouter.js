@@ -15,7 +15,7 @@ router.post("/login", async (req, res) => {
 
 router.get("/auth", isAuth, async (req, res) => {
   try {
-    const data = await userService.getUserById(req.id);
+    const data = await userService.getById(req.id);
     res.json(data);
   } catch (err) {
     res.status(500).json({ error: err.message });
