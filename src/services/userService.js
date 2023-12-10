@@ -5,10 +5,6 @@ const { createHash, validateHash } = require("../utils/security");
 const { createToken } = require("../utils/token");
 
 class UserService extends BaseService {
-  constructor() {
-    super(userRepo.model);
-  }
-
   async createUser(data) {
     const userPhone = await userRepo.getUserByPhone(data.phone);
     if (userPhone) {
@@ -23,7 +19,7 @@ class UserService extends BaseService {
     const hashedPassword = await createHash(data.password);
     data.password = hashedPassword;
 
-    const newUser = await userRepo.create(data);
+    const newUser = await super.create(data);
     const { password, ...user } = newUser.toObject();
     return user;
   }
@@ -44,4 +40,4 @@ class UserService extends BaseService {
   }
 }
 
-module.exports = new UserService();
+module.exports = new UserService(userRepo.model);
