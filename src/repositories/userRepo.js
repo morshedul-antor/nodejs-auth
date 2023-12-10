@@ -2,10 +2,6 @@ const User = require("../models/userModel");
 const BaseRepo = require("./baseRepo");
 
 class UserRepo extends BaseRepo {
-  constructor(model) {
-    super(model);
-  }
-
   // search
   async getUserByPhone(phone) {
     return await this.model.findOne({ phone });
