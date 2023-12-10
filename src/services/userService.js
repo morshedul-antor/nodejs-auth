@@ -1,8 +1,8 @@
 const BaseService = require("./baseService");
 const userRepo = require("../repositories/userRepo");
 
-const jwt = require("jsonwebtoken");
-const bcrypt = require("bcrypt");
+const { createHash, validateHash } = require("../utils/security");
+const { createToken } = require("../utils/token");
 
 class UserService extends BaseService {
   constructor() {
@@ -20,7 +20,7 @@ class UserService extends BaseService {
       throw new Error("Email already exist!");
     }
 
-    const hashedPassword = await bcrypt.hash(data.password, 10);
+    const hashedPassword = await createHash(data.password);
     data.password = hashedPassword;
 
     const newUser = await userRepo.create(data);
@@ -34,15 +34,13 @@ class UserService extends BaseService {
       throw new Error("Invalid username or password!");
     }
 
-    const isMatch = await bcrypt.compare(data.password, user.password);
+    const isMatch = await validateHash(data.password, user.password);
     if (!isMatch) {
       throw new Error("Invalid username or password!");
     }
 
-    const token = jwt.sign({ sid: user._id }, process.env.JWT_SECRET, {
-      expiresIn: "24h",
-    });
-    return { token: token, type: "bearer" };
+    const token = await createToken(user._id);
+    return token;
   }
 }
 
