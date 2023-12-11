@@ -3,12 +3,15 @@ const BaseRepo = require("../repositories/baseRepo");
 class BaseService extends BaseRepo {
   async create(dataIn) {
     const data = await super.create(dataIn);
+    if (!data) {
+      throw new Error("Something went wrong!");
+    }
+
     return data;
   }
 
   async get() {
     const data = await super.get();
-
     if (!data || data.length === 0) {
       return [];
     }
@@ -18,7 +21,6 @@ class BaseService extends BaseRepo {
 
   async getWithPaganation(skip, limit) {
     const data = await super.getWithPaganation(skip, limit);
-
     if (!data[1] || data[1].length === 0) {
       return [{ result: 0 }, []];
     }
@@ -28,7 +30,6 @@ class BaseService extends BaseRepo {
 
   async getById(id) {
     const data = await super.getById(id);
-
     if (!data) {
       return [];
     }
@@ -37,13 +38,31 @@ class BaseService extends BaseRepo {
   }
 
   async updateById(id, dataUpdate) {
+    const doc = await super.getById(id);
+    if (!doc) {
+      throw new Error("No data found!");
+    }
+
     const data = await super.updateById(id, dataUpdate);
+    if (!data) {
+      throw new Error("Something went wrong!");
+    }
+
     return data;
   }
 
   async deleteById(id) {
+    const doc = await super.getById(id);
+    if (!doc) {
+      throw new Error("No data found!");
+    }
+
     const data = await super.deleteById(id);
-    return data;
+    if (!data) {
+      throw new Error("Something went wrong!");
+    }
+
+    return { success: true, message: "Successfully deleted!" };
   }
 }
 
