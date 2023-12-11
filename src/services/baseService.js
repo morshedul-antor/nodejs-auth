@@ -1,8 +1,12 @@
 const BaseRepo = require("../repositories/baseRepo");
 
-class BaseService extends BaseRepo {
+class BaseService {
+  constructor(model) {
+    this.repo = new BaseRepo(model);
+  }
+
   async create(dataIn) {
-    const data = await super.create(dataIn);
+    const data = await this.repo.create(dataIn);
     if (!data) {
       throw new Error("Something went wrong!");
     }
@@ -11,7 +15,7 @@ class BaseService extends BaseRepo {
   }
 
   async get() {
-    const data = await super.get();
+    const data = await this.repo.get();
     if (!data || data.length === 0) {
       return [];
     }
@@ -20,7 +24,7 @@ class BaseService extends BaseRepo {
   }
 
   async getWithPaganation(skip, limit) {
-    const data = await super.getWithPaganation(skip, limit);
+    const data = await this.repo.getWithPaganation(skip, limit);
     if (!data[1] || data[1].length === 0) {
       return [{ result: 0 }, []];
     }
@@ -29,7 +33,7 @@ class BaseService extends BaseRepo {
   }
 
   async getById(id) {
-    const data = await super.getById(id);
+    const data = await this.repo.getById(id);
     if (!data) {
       return [];
     }
@@ -37,13 +41,22 @@ class BaseService extends BaseRepo {
     return data;
   }
 
+  async getByKey(key) {
+    const data = await this.repo.getByKey(key);
+    if (!data) {
+      throw new Error("No data found!");
+    }
+
+    return data;
+  }
+
   async updateById(id, dataUpdate) {
-    const doc = await super.getById(id);
+    const doc = await this.repo.getById(id);
     if (!doc) {
       throw new Error("No data found!");
     }
 
-    const data = await super.updateById(id, dataUpdate);
+    const data = await this.repo.updateById(id, dataUpdate);
     if (!data) {
       throw new Error("Something went wrong!");
     }
@@ -52,12 +65,12 @@ class BaseService extends BaseRepo {
   }
 
   async deleteById(id) {
-    const doc = await super.getById(id);
+    const doc = await this.repo.getById(id);
     if (!doc) {
       throw new Error("No data found!");
     }
 
-    const data = await super.deleteById(id);
+    const data = await this.repo.deleteById(id);
     if (!data) {
       throw new Error("Something went wrong!");
     }
