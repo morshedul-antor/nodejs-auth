@@ -1,3 +1,4 @@
+const baseSchema = require("../schemas/baseSchema");
 const mongoose = require("mongoose");
 
 const roleSchema = mongoose.Schema({
@@ -5,5 +6,7 @@ const roleSchema = mongoose.Schema({
     type: String,
   },
 });
+
+roleSchema.add(baseSchema);
 
 module.exports = mongoose.model("Role", roleSchema);

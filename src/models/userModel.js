@@ -1,3 +1,4 @@
+const baseSchema = require("../schemas/baseSchema");
 const mongoose = require("mongoose");
 
 const userSchema = new mongoose.Schema({
@@ -21,5 +22,7 @@ const userSchema = new mongoose.Schema({
     ref: "Role",
   },
 });
+
+userSchema.add(baseSchema);
 
 module.exports = mongoose.model("User", userSchema);
