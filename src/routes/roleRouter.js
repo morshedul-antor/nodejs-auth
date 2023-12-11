@@ -31,7 +31,7 @@ router.get("/:id", async (req, res) => {
   }
 });
 
-router.put("/:id", async (req, res) => {
+router.put("/:id", isAuth, async (req, res) => {
   try {
     const data = await roleService.updateById(req.params.id, req.body);
     res.json(data);
@@ -40,7 +40,7 @@ router.put("/:id", async (req, res) => {
   }
 });
 
-router.delete("/:id", async (req, res) => {
+router.delete("/:id", isAuth, async (req, res) => {
   try {
     const data = await roleService.deleteById(req.params.id);
     res.json(data);
