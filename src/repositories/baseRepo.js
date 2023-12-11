@@ -13,12 +13,12 @@ class BaseRepo {
   }
 
   async getWithPaganation(skip = 0, limit = 10) {
-    const dataAll = await this.model.find();
+    const count = await this.model.find();
     const data = await this.model
       .find({}, { __v: 0, password: 0 })
       .skip(skip)
       .limit(limit);
-    return [{ result: dataAll.length }, data];
+    return [{ result: count.length }, data];
   }
 
   async getById(id) {
@@ -26,16 +26,15 @@ class BaseRepo {
   }
 
   async updateById(id, dataUpdate) {
-    return await this.model.updateOne(
-      { _id: id },
-      {
-        $set: dataUpdate,
-      }
-    );
+    dataUpdate.updatedAt = new Date(Date.now() + 6 * 60 * 60 * 1000); //GMT+6
+
+    return await this.model
+      .findByIdAndUpdate(id, { $set: dataUpdate }, { new: true })
+      .select("-__v");
   }
 
   async deleteById(id) {
-    return await this.model.deleteOne({ _id: id });
+    return await this.model.findByIdAndDelete(id);
   }
 }
 
