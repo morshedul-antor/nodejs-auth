@@ -25,6 +25,10 @@ class BaseRepo {
     return await this.model.findById(id, { __v: 0, password: 0 });
   }
 
+  async getByKey(key) {
+    return await this.model.findOne(key);
+  }
+
   async updateById(id, dataUpdate) {
     dataUpdate.updatedAt = new Date(Date.now() + 6 * 60 * 60 * 1000); //GMT+6
 
