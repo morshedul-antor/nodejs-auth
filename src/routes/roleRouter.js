@@ -42,7 +42,7 @@ router.put("/:id", async (req, res) => {
 
 router.delete("/:id", async (req, res) => {
   try {
-    const data = await roleService.get();
+    const data = await roleService.deleteById(req.params.id);
     res.json(data);
   } catch (err) {
     res.status(500).json({ error: err.message });
