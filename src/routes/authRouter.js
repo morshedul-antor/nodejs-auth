@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 
 const userService = require("../services/userService");
-const isAuth = require("../middlewares/isAuth");
+const { isAuth } = require("../middlewares/authentication");
 
 router.post("/login", async (req, res) => {
   try {
@@ -15,10 +15,15 @@ router.post("/login", async (req, res) => {
 
 router.get("/auth", isAuth, async (req, res) => {
   try {
-    const data = await userService.getById(req.id);
-    res.json(data);
+    const data = await req.user;
+    const { roleId, ...user } = data._doc;
+
+    res.json({
+      ...user,
+      roleName: req.user.roleName,
+    });
   } catch (err) {
-    res.status(500).json({ error: err.message });
+    res.badRequest({ error: err.message });
   }
 });
 

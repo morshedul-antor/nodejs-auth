@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 
 const userService = require("../services/userService");
-const isAuth = require("../middlewares/isAuth");
+const { isAuth } = require("../middlewares/authentication");
 
 router.post("/", async (req, res) => {
   try {

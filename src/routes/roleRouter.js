@@ -2,9 +2,9 @@ const express = require("express");
 const router = express.Router();
 
 const roleService = require("../services/roleService");
-const isAuth = require("../middlewares/isAuth");
+const { isAuthAdmin } = require("../middlewares/authentication");
 
-router.post("/", async (req, res) => {
+router.post("/", isAuthAdmin, async (req, res) => {
   try {
     const data = await roleService.createRole(req.body);
     res.json(data);
@@ -22,7 +22,7 @@ router.get("/", async (req, res) => {
   }
 });
 
-router.get("/:id", async (req, res) => {
+router.get("/:id", isAuthAdmin, async (req, res) => {
   try {
     const data = await roleService.getById(req.params.id);
     res.json(data);
@@ -31,7 +31,7 @@ router.get("/:id", async (req, res) => {
   }
 });
 
-router.put("/:id", isAuth, async (req, res) => {
+router.put("/:id", isAuthAdmin, async (req, res) => {
   try {
     const data = await roleService.updateById(req.params.id, req.body);
     res.json(data);
@@ -40,7 +40,7 @@ router.put("/:id", isAuth, async (req, res) => {
   }
 });
 
-router.delete("/:id", isAuth, async (req, res) => {
+router.delete("/:id", isAuthAdmin, async (req, res) => {
   try {
     const data = await roleService.deleteById(req.params.id);
     res.json(data);
