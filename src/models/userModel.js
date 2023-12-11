@@ -13,6 +13,10 @@ const userSchema = new mongoose.Schema({
     type: String,
     unique: true,
   },
+  active: {
+    type: Boolean,
+    required: true,
+  },
   password: {
     type: String,
     required: true,
@@ -20,6 +24,7 @@ const userSchema = new mongoose.Schema({
   roleId: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "Role",
+    required: true,
   },
 });
 
