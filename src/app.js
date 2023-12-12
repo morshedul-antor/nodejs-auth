@@ -4,7 +4,7 @@ const app = express();
 app.use(express.json());
 
 // error handler
-const errorExceptions = require("./errors/exceptions");
+const errorExceptions = require("./errors/exception");
 app.use(errorExceptions);
 
 // root api
